@@ -1,17 +1,17 @@
 import socket
-import time
 
 BUFFER_SIZE = 1024
 TIMEOUT = 5
 WINDOW_SIZE = 5
 
-def handle_client(sock, addr):
+def handle_client(sock, addr, num_messages):
     print(f"Conectado a {addr}")
 
     received_messages = {}
     expected_seq = 0
+    total_received = 0
 
-    while True:
+    while total_received < num_messages:
         try:
             data, addr = sock.recvfrom(BUFFER_SIZE)
             if not data:
@@ -27,6 +27,7 @@ def handle_client(sock, addr):
                 print(f"Mensagem esperada recebida: {message.strip()}")
                 received_messages[seq_num] = message.strip()
                 expected_seq += 1
+                total_received += 1
 
                 # Processa mensagens recebidas em ordem
                 while expected_seq in received_messages:
@@ -55,10 +56,10 @@ def main():
     sock.bind(server_address)
     sock.settimeout(TIMEOUT)
 
-    print(f"Servidor UDP escutando em {server_address}")
+    print(f"Servidor UDP modificado escutando em {server_address}")
 
-    while True:
-        handle_client(sock, server_address)
+    num_messages = 1000
+    handle_client(sock, server_address, num_messages)
 
 if __name__ == "__main__":
     main()
