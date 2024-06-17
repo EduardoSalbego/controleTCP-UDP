@@ -31,7 +31,7 @@ def main():
             print("> ", buf.decode())
 
             # Envia de volta a mensagem via UDP
-            conn.sendto(b"Ola UDPclient\n", addr)
+            conn.sendto(b"Mensagem recebida! \n", addr)
         except socket.error as err:
             print(err)
             return
