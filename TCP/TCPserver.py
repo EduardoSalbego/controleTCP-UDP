@@ -41,6 +41,7 @@ def main():
     while True:
         # Aceita novas conexões
         conn, addr = listener.accept()
+        print(" ")
         print(f"Conexão aceita de {addr}")
         # Trata novas conexões em um thread separado para concorrência
         handle_connection(conn)
